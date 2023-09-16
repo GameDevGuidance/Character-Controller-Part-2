@@ -15,6 +15,7 @@ public class scr_PlayerController : MonoBehaviour
     private void Start()
     {
         character_controller = GetComponent<CharacterController>();
+        Camera.main.GetComponent<scr_Camera>().follow_target = transform; // CAMERA TUT LINE
     }
 
     private void Update()
@@ -23,6 +24,8 @@ public class scr_PlayerController : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
         float move_amount = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
         Vector3 velocity = new Vector3(horizontal, 0f, vertical).normalized * movement_speed;
+        velocity = Quaternion.LookRotation(
+            new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z)) * velocity; // CAMERA TUT LINE
 
         if(character_controller.isGrounded)
         {
